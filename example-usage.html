@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>pd-svg example</title>
+<script src="pd-svg.js"></script>
+<style>
+html
+{
+	--color-back : #333;
+	--color-text : #ccc;
+	--color-line : #aaa;
+	--color-bord : #aaa;
+}
+@media print, (prefers-color-scheme: light) {
+	html
+	{
+		--color-back : #fff;
+		--color-text : #000;
+		--color-line : #000;
+		--color-bord : #000;
+	}
+}
+html,
+body
+{
+	color      : var(--color-text);
+	background : var(--color-back);
+
+}
+body {
+	padding     : 1em;
+	padding-top : 0;
+}
+pd-svg {
+	border : 1px solid var(--color-bord);
+}
+</style>
+</head>
+<body>
+	<h1>&lt;pd-svg&gt;</h1>
+	<p>drag-n-drop a puredata patch here.</p>
+	<pd-svg></pd-svg>
+</body>
+<script>
+/* drag-n-drop files to load */
+const pdsvg = document.querySelector("pd-svg");
+const html  = document.querySelector("html");
+html.addEventListener("dragover", (event)=>{
+	event.preventDefault();
+});
+html.addEventListener("drop", async (event)=>{
+	event.preventDefault();
+	const file  = event.dataTransfer.files[0];
+	pdsvg.patch = await file.text();
+});
+</script>
+</html>
